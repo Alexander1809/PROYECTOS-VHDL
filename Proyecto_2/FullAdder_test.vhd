@@ -7,11 +7,11 @@ use IEEE.std_logic_1164.all;
 
 -- Entity (empty)
 entity FullAdder_test is    
-port(
-a,b,c : in std_logic;
-sum,carry : out std_logic
-);
-end entity;
+	port(
+	a,b,c : in std_logic;
+	sum,carry : out std_logic
+	);
+	end entity;
 
 -- Architecture (test process)
 architecture arch of FullAdder_test is
@@ -21,31 +21,71 @@ architecture arch of FullAdder_test is
         port(
             a     :    in     std_logic;
             b     :    in     std_logic;
+			c     :    in std_logic;
             sum	:    out    std_logic;
             carry :    out    std_logic
         );
     end component;
    
     -- Signal declaration
-    signal sum1     : std_logic ;
-    signal carry1   : std_logic ;
-    signal carry2   : std_logic;
-   
+	 Signal a_test 	   : std_logic :='0';
+	 signal b_test       : std_logic :='0';
+	 signal c_test       : std_logic :='0';
+	 signal sum_test     : std_logic;
+    signal carry_test   : std_logic;
+    
     begin
-   
-    halfAdder1: HalfAdder
-      port map(
-        a=> a,
-         b=> b,
-         sum=> sum1,
-         carry=> carry1
-      );
-      halfAdder2: HalfAdder
-      port map(
-        a=> sum1,
-         b=> c,
-         sum=> sum,
-         carry=> carry2
-      );
-      carry <= carry1 or carry2;
-      end architecture;
+	 
+	dut1	: HalfAdder 
+		port map (
+			a 		=> a_test,
+			b 		=> b_test,
+			c       => c_test,
+			sum 	=> sum_test,
+			carry	=> carry_test
+		);
+	
+	
+	 stimulus : process
+    begin
+	report "Start of the test of FullAdder"	  
+	severity note;
+	
+        -- Test case 1
+        a_test <= '0';
+        b_test <= '0';
+        c_test <= '0';
+        wait for 10 ns;
+        
+        -- Test case 2
+        a_test <= '1';
+        b_test <= '0';
+        c_test <= '0';
+        wait for 1 ns;
+        
+        -- Test case 3
+        a_test <= '0';
+        b_test <= '1';
+        c_test <= '0';
+        wait for 1 ns;
+        
+        -- Test case 4
+        a_test <= '1';
+        b_test <= '1';
+        c_test <= '0';
+        wait for 3 ns;
+        
+        -- Test case 5
+        a_test <= '0';
+        b_test <= '0';
+        c_test <= '1';
+        wait for 10 ns;
+	
+	
+		report "Test successful"
+		severity note;
+		wait;
+
+	end process;
+	
+end architecture arch;
