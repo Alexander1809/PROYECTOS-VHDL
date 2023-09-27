@@ -1,4 +1,5 @@
 --By Alexander Bonilla H
+--File name: FullAdder_test.vhdl
 
 -- Library and packages
 library    IEEE;
